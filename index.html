@@ -1,0 +1,100 @@
+<!--
+Danielle Taplin
+WEB330-Enterprise JavaScript II
+Index Landing Page for WEB 330 Assignments
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>WEB 330 - Enterprise JavaScript II</title>
+        <!--links to css stylesheets and google fonts for class font family Oswald, Verdana, Arial, Sans-serif-->
+        <link href="site.css" rel="stylesheet">
+        <link href="theme.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!--theme for light/dark mode scripts linked here-->
+    <script src="theme.js"></script>
+    </head>
+
+    <body class="light-theme">
+        <div id="icon">
+        <i id="icon-mode" onclick="toggleMode(this)" class="fa fa-toggle-off pull-right" 
+        style="font-size: 28px;"><span id="icon-text"></span></i>
+    </div>
+
+        <div id="container">
+           <h1>Danielle Taplin's Landing Page</h1>
+           <h2>WEB 330 Enterprise JavaScript II</h2>
+           
+           <hr>
+           
+           <!--weekly assignment links here-->
+           <h3>Weekly Assignments</h3>
+           <ul>
+            <li><a href="">Assignment 2.2</a></li>
+            <li><a href="">Assignment 3.2</a></li>
+            <li><a href="">Assignment 3.3</a></li>
+            <li><a href="">Assignment 4.2</a></li>
+            <li><a href="">Assignment 5.2</a></li>
+            <li><a href="">Assignment 6.2</a></li>
+            <li><a href="">Assignment 7.2</a></li>
+            <li><a href="">Assignment 8.2</a></li>
+            <li><a href="">Assignment 9.2</a></li>
+           </ul>
+           
+           <!--project links here-->
+           <h3>Projects</h3>
+           <ul>
+            <li><a href="">Personal Portfolio</a></li>
+            <li><a href="https://dannieland.github.io/web-231/">WEB 231's Landing Page</a></li>
+           </ul>
+           
+           <!--any links that may be useful during this course-->
+           <h4>Important Links</h4>
+           <ul>
+            <li><a href="https://validator.w3.org/" target="_blank">W3C HTML Validator</a></li>
+            <li><a href="http://jigsaw.w3.org/css-validator/" target="_blank">W3C CSS Validator</a></li>
+            <li><a href="https://www.w3schools.com/html/" target="_blank">HTML Tutorial</a></li>
+            <li><a href="https://www.w3schools.com/js/js_best_practices.asp" target="_blank">JavaScript Best Practices</a></li>
+            <li><a href="https://github.com/Dannieland/web-330" target="_blank">WEB 330's GitHub Repository</a></li>
+            <li><a href="https://bruinconnect.bellevue.edu/" target="_blank">BRUIN Connect</a></li>
+            </ul>
+        </div>
+        <script>
+
+			setDefaultTheme(); //set default theme to light if one is not set in local storage
+
+			
+			 //@param x (this instance)
+			function toggleMode(x) { //function to switch the users selected website theme
+				let colorTheme = document.body.classList; // get the body's css class
+				let iconMode = x.classList; // get the current classes assigned to the triggered button
+
+		
+				if (colorTheme.value === "light-theme") { //if body class is set to light-theme, update to preference dark-theme in local storage
+					localStorage.clear(); //clear local storage
+					localStorage.setItem("mode", "dark-theme"); //set to dark theme
+					localStorage.setItem("iconMode", "fa-toggle-on"); //toggle icon mode
+					localStorage.setItem("iconText", "Dark Mode"); //toggle page to dark mode
+				} else {
+					/**
+					 * If the current body class is set to the dark-theme, update the user's preference to the light-theme in the browsers
+					 * local storage.
+					 */
+					localStorage.clear(); //begin by clearing local storage
+					localStorage.setItem("mode", "light-theme"); //set to light-theme
+					localStorage.setItem("iconMode", "fa-toggle-off"); //toggle icon mode to light
+					localStorage.setItem("iconText", "Light Mode"); //toggle page to light mode
+				}
+
+		
+				colorTheme.value = localStorage.getItem("mode"); //apply new mode to html page
+				iconMode.value = `fa ${localStorage.getItem("iconMode")} pull-right`; 
+				document.getElementById("icon-text").innerHTML =
+					localStorage.getItem("iconText"); //store in local storage
+			}
+		</script>
+    </body>
+</html>
