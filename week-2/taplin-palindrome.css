@@ -1,0 +1,28 @@
+/*Title: taplin-palindrome.css
+Author: Danielle Taplin
+Date: 6/1/23
+Description: styling for palindrome app
+*/
+
+/*import theme.css for the heading light-dark theme variables*/
+@import url("../theme.css");
+
+/*set border, background color, and text color of main heading*/
+h1{
+    border: none;
+    background-color:var(--background-color);
+    color: var(--text-color);
+}
+
+/*center card, contents, and set width*/
+.card{
+    margin:auto;
+    text-align: center;
+    width: 100%;
+}
+
+/*align the assign-results-header to the left*/
+#assign-results-header{
+    text-align: left;
+}
+

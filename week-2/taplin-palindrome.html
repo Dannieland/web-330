@@ -1,0 +1,107 @@
+<!--
+  ===================================
+  Title: taplin-palindrome.html
+  Author: Danielle Taplin
+  Date: 6/1/2023
+  Description: HTML document for palindrome app
+  ===================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <!--google fonts for Oswald as well as stylesheet taplin-palindrome.css and theme.css now including theme.js-->
+        <meta charset="UTF-8">
+        <title>WEB 330: Enterprise JavaScript II</title>
+        <link rel="stylesheet" type="text/css" href="../site.css">
+        <link rel="stylesheet" type="text/css" href="../theme.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <script src="../theme.js"></script>
+    </head>
+    
+    <body class="light-theme">
+        <div id="icon">
+            <i onclick="toggleMode(this)" id="icon-mode" class="fa fa-toggle-off pull-right"
+            style="font-size: 28px;"><span id="icon-text"></span></i>&nbsp;
+        <!--assignment container to hold the first card, and app-header-->
+        <div class="assign-container">
+          <h1 class="app-header">Welcome to the Palindrome App!</h1>
+          <div class="assign-content">
+            <!--sisplay a card with a title-->
+            <div class="card">
+              <div class="card-title">Palindrome Checker</div>
+              <div class="card-content">
+                <!--form for inputting phrases-->
+                <div class="form">
+                  <!--display a text field for inputting a phrase with a label-->
+                  <div class="form-field">
+                    <label for="txtPhrase">Phrase Value:</label>
+                    <input type="text" class="input" id="txtPhrase" name="txtPhrase">
+                  </div>
+                  <!--display button to check if the inputted field is a palindrome or not-->
+                  <div class="form-field">
+                    <button class="btn btn-primary" id="btnCheckPhrase">Check Phrase</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!--assignment container for second card-->
+        <div class="assign-container">
+          <div class="assign-content">
+            <!--display card with results header-->
+            <div class="card">
+              <div class="card-title ">Palindrome Results</div>
+                <div class="card-content">
+                  <!--display results of palindrome check from the JavaScript file-->
+                  <div id="assign-results-header"></div>
+                  <div class="assign-results-text" id="assign-results"></div>
+                </div>
+              </div>
+              <!--display link to return to index.html-->
+              <a href="../index.html">Return</a>
+            </div>
+            <!--link to JavaScript file-->
+            <script src="taplin-palindrome.js"></script>
+          </div>
+        </div>  
+        <script>
+
+			setDefaultTheme(); //set default theme to light if one is not set in local storage
+
+			
+			 //@param x (this instance)
+			function toggleMode(x) { //function to switch the users selected website theme
+				let colorTheme = document.body.classList; // get the body's css class
+				let iconMode = x.classList; // get the current classes assigned to the triggered button
+
+		
+				if (colorTheme.value === "light-theme") { //if body class is set to light-theme, update to preference dark-theme in local storage
+					localStorage.clear(); //clear local storage
+					localStorage.setItem("mode", "dark-theme"); //set to dark theme
+					localStorage.setItem("iconMode", "fa-toggle-on"); //toggle icon mode
+					localStorage.setItem("iconText", "Dark Mode"); //toggle page to dark mode
+				} else {
+					/**
+					 * If the current body class is set to the dark-theme, update the user's preference to the light-theme in the browsers
+					 * local storage.
+					 */
+					localStorage.clear(); //begin by clearing local storage
+					localStorage.setItem("mode", "light-theme"); //set to light-theme
+					localStorage.setItem("iconMode", "fa-toggle-off"); //toggle icon mode to light
+					localStorage.setItem("iconText", "Light Mode"); //toggle page to light mode
+				}
+
+		
+				colorTheme.value = localStorage.getItem("mode"); //apply new mode to html page
+				iconMode.value = `fa ${localStorage.getItem("iconMode")} pull-right`; 
+				document.getElementById("icon-text").innerHTML =
+					localStorage.getItem("iconText"); //store in local storage
+			}
+		</script>
+    </body>
+</html>
