@@ -1,0 +1,20 @@
+/*
+Title: restaurant.css
+Date: 6/5/2023
+Author: Danielle Taplin
+Description: CSS styling for my restaurant app
+*/
+
+/*grid css*/
+#grid {
+	display: grid;
+	grid-template-columns: auto auto;
+	margin: 10px;
+	column-gap: 10px;
+	row-gap: 10px;
+}
+
+/* adding bottom padding to card class*/
+.card {
+	padding-bottom: 10px;
+}
