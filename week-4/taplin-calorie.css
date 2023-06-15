@@ -1,0 +1,18 @@
+/*
+Title: taplin-calorie.css
+Date: 6/9/2023
+Author: Danielle Taplin
+Description: CSS styling for my calorie app
+*/
+
+#foodList {
+	float: right;
+	color: #df546a;
+	font-size: 12px;
+	letter-spacing: 2px;
+}
+
+/* reducing results table size to 30% */
+#searchResults {
+	width: 30%;
+}

@@ -1,0 +1,171 @@
+<!--
+  ===================================
+  Title: taplin-calorie.html
+  Author: Danielle Taplin
+  Date: 6/9/2023
+  Description: HTML document for calorie app
+  ===================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <!--google fonts for Oswald as well as stylesheets for the course-->
+        <meta charset="UTF-8">
+        <title>WEB 330: Enterprise JavaScript II</title>
+        <link rel="stylesheet" type="text/css" href="../site.css">
+        <link rel="stylesheet" type="text/css" href="../theme.css">
+        <link rel="stylesheet" type="text/css" href="taplin-calorie.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <script src="../theme.js"></script>
+    </head>
+    <!--theme button-->
+    <body class="light-theme">
+        <div id="icon">
+            <i onclick="toggleMode(this)" id="icon-mode" class="fa fa-toggle-off pull-right"
+            style="font-size: 28px;"><span id="icon-text"></span></i>&nbsp;
+
+        <!--assignment container to hold the first card, and app-header-->
+		<main id="container">
+			<h1 class="app-header">Welcome to the Calorie App!</h1>
+
+			<!--card including user input and button to trigger app onclick event-->
+			<div class="card">
+				<div class="card-title">Calorie Search form</div>
+				<div class="card-content">
+					<div class="form">
+						<div class="form-field">
+							<label for="txtFoodItem">Enter a food item:</label>
+							<!--input for the user to enter a food item-->
+							<input
+								type="text"
+								id="txtFoodItem"
+								class="input"
+								name="txtFoodItem"
+							/>
+							<br />
+							<!-- text that show example of food items to be searched for-->
+							<span id="foodList"></span>
+						</div>
+
+						<div class="form-field">
+							<!--button to be clicked to trigger food item search-->
+							<button
+								type="submit"
+								class="btn btn-primary full-width"
+								id="btnSearch"
+							>
+								Search
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--link to web330 landing page-->
+			<a class="return-home" href="../index.html">Return</a>
+
+			<div class="card">
+				<!--card displaying results-->
+				<div class="card-title">Search Results</div>
+				<div class="card-content" id="searchResults"></div>
+			</div>
+		</main>
+        <script>
+
+			setDefaultTheme(); //set default theme to light if one is not set in local storage
+
+			
+			 //@param x (this instance)
+			function toggleMode(x) { //function to switch the users selected website theme
+				let colorTheme = document.body.classList; // get the body's css class
+				let iconMode = x.classList; // get the current classes assigned to the triggered button
+
+		
+				if (colorTheme.value === "light-theme") { //if body class is set to light-theme, update to preference dark-theme in local storage
+					localStorage.clear(); //clear local storage
+					localStorage.setItem("mode", "dark-theme"); //set to dark theme
+					localStorage.setItem("iconMode", "fa-toggle-on"); //toggle icon mode
+					localStorage.setItem("iconText", "Dark Mode"); //toggle page to dark mode
+				} else {
+					/**
+					 * If the current body class is set to the dark-theme, update the user's preference to the light-theme in the browsers
+					 * local storage.
+					 */
+					localStorage.clear(); //begin by clearing local storage
+					localStorage.setItem("mode", "light-theme"); //set to light-theme
+					localStorage.setItem("iconMode", "fa-toggle-off"); //toggle icon mode to light
+					localStorage.setItem("iconText", "Light Mode"); //toggle page to light mode
+				}
+
+		
+				colorTheme.value = localStorage.getItem("mode"); //apply new mode to html page
+				iconMode.value = `fa ${localStorage.getItem("iconMode")} pull-right`; 
+				document.getElementById("icon-text").innerHTML =
+					localStorage.getItem("iconText"); //store in local storage
+			}
+		</script>
+
+<script type="module">
+    // class import
+    import { CalorieConverter } from "./calorie-converter.js";
+
+    // assigning input to a variable.
+    const txtFoodItemEl = document.getElementById("txtFoodItem");
+
+    // onclick event to trigger the search
+    document.getElementById("btnSearch").onclick = function SearchForItem() {
+        // assigning input value to variable
+        const txtFoodItem = txtFoodItemEl.value;
+
+        // using CalorieConverter find class with user input as parameter and assigning array to foods variable
+        const foods = CalorieConverter.find(txtFoodItem.toLowerCase());
+
+        // creating string that starts an HTML table
+        let tableData = `<table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Calories</th>
+                </tr>`;
+        // iterating over foods variable and assigning object values to table data elements
+        for (const food of foods) {
+            tableData += `<tr>
+                    <td>${food.name}</td>
+                    <td>${food.calories}</td>
+                    </tr>`;
+        }
+
+        // binding tableData variable string data to searchResults Div
+        document.getElementById(
+            "searchResults"
+        ).innerHTML = `${tableData} </table>`;
+    };
+
+    // event listener to trigger search for user input item when "Enter" is clicked on the keyboard
+    txtFoodItemEl.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            document.getElementById("btnSearch").click();
+        }
+    });
+
+    // assigning data array from CalorieConverter class to variable
+    let foodList = CalorieConverter.data;
+
+    // creating string that for example text that goes inside span element
+    let foodListData = `<i>(EX: `;
+
+    // loop that iterates over foodList array and populates foodListData string with food item names
+    for (const food of foodList) {
+        foodListData += `${food.name}, `;
+    }
+
+    // binding foodListData string to foodList span and removing last two characters in the final string
+    document.getElementById("foodList").innerHTML = `${foodListData.slice(
+        0,
+        -2
+    )}) </i>`;
+</script>
+    </body>
+</html>
