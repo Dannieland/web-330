@@ -1,0 +1,19 @@
+/*
+taplin-bobs-auto-repair.css
+Danielle Taplin
+6/21/2023
+CSS document for bobs auto repair shop
+*/
+
+/* styling for cart viewing instructions*/
+
+#cart-message {
+	float: right;
+	color: #df546a;
+	font-size: 12px;
+	letter-spacing: 2px;
+}
+/* changing cursor to pointer when hovering over instructions*/
+i:hover {
+	cursor: pointer;
+}
