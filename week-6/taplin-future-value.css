@@ -1,0 +1,57 @@
+/*
+taplin-future-value.css
+Danielle Taplin
+6/29/2023
+CSS document for future value app
+*/
+
+/*import theme.css for heading light-dark theme variables*/
+@import url("../theme.css");
+
+/*set border, background color, and text color of main heading*/
+h1{
+    border: none;
+    background-color:var(--background-color);
+    color: var(--text-color);
+}
+
+/*set width to 100%*/
+.card{
+    width: 100%;
+}
+
+/*set button width to 100%*/
+button{
+    width: 100%;
+}
+
+/*font styling for DANGER text*/
+.danger{
+    float: right;
+    color: #df546a;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+/*form label styling*/
+.form-label{
+    display: inline-block;
+    padding-top: 1rem;
+}
+
+/*set form width*/
+.form{
+    width: 65%;
+}
+
+/*align instructions text*/
+.instructions{
+    width: 85%;
+    text-align: center;
+}
+
+/*align error messages*/
+#errorLog{
+    width: 100%;
+    text-align: left;
+}

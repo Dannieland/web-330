@@ -1,0 +1,258 @@
+<!--
+  ===================================
+  Title: taplin-future-value.html
+  Author: Danielle Taplin
+  Date: 6/29/2023
+  Description: HTML document for my future value app
+  ===================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <!--google fonts for Oswald as well as stylesheets for the course-->
+        <meta charset="UTF-8">
+        <title>WEB 330: Enterprise JavaScript II</title>
+        <link rel="stylesheet" type="text/css" href="../site.css">
+        <link rel="stylesheet" type="text/css" href="../theme.css">
+        <link rel="stylesheet" type="text/css" href="taplin-future-value.css">
+        <link rel="stylesheet" type="text/css" href="../flex-layout.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <script src="../theme.js"></script>
+    </head>
+
+    <body>
+      <div id="icon">
+        <!-- icon with onclick event that switches between dark and light mode -->
+        <i
+          id="icon-mode"
+          class="fa fa-toggle-off pull-right"
+          onclick="toggleMode(this)"
+          style="font-size: 28px"
+          ><span id="icon-text"></span>
+        </i>
+      </div>
+
+      <!--assignment container holding first card and app-header-->
+    <div class="assign-container">
+      <h1 class="app-header">Welcome to the Future Value app!</h1>
+      <div class="assign-content">
+      <!--display card with a title-->
+        <div class="card">
+          <div class="card-title">Future Value Calculator</div>
+      <!-- empty row displaying error logs -->
+          <div class="danger" id="errorLog"></div>
+
+      <!--display card-content with form for future value calculation-->
+          <div class="card-content">
+            <div class="form">
+
+              <!--display text form field and label for monthly payment-->
+              <div class="form-field row">
+                <label for="txtMonthlyPayment" class="col-5 form-label">Monthly Payment:</label>
+                <input type="text" class="input col-7" id="txtMonthlyPayment">
+              </div>
+
+              <!--display text form field and label for interest rate-->
+              <div class="form-field row">
+                <label for="txtYearlyRate" class="col-5 form-label">Interest Rate:</label>
+                <input type="text" class="input col-7" id="txtYearlyRate">
+              </div>
+
+              <!--display instructions for entering interest rate-->
+              <div class="instructions">
+                <i class="danger">Enter 11% as 11.1</i>
+              </div>
+              
+
+              <!--display drop-down input for number of years-->
+              <div class="form-field row">
+                <label for="listNumOfYears" class="col-5 form-label">Number of Years:</label>
+                <select id="listNumOfYears" class="drop-down-menu col-3">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+
+              </div>
+
+              <!--display a button to calculate the value-->
+              <div class="form-field">
+                <button class="btn btn-primary" id="btnCalculate">Calculate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--display link returning to index.html-->
+        <a href="../index.html">Return</a>
+      </div>
+    </div>
+
+      <!--assignment container for second card-->
+    <div class="assign-container">
+      <div class="assign-content">
+
+        <!--display card with a results header-->
+        <div class="card">
+          <div class="card-title ">Calculation as of <span id="today"></span></div>
+            <div class="card-content futureValue">
+
+              <!--display result-->
+              <div class="assign-results-text" id="futureValue"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+
+        /************************************************** Default Theme Code *************************************************/
+  
+        /* set the default theme to light if one has not been set in the browsers localStorage*/
+        setDefaultTheme();
+  
+        /**
+         * function to switch the users selected website theme
+         * @param x (this instance)
+         */
+        function toggleMode(x) {
+          let colorTheme = document.body.classList; // get the body's CSS class
+          let iconMode = x.classList; // get the current classes assigned to the triggered button
+  
+          /**
+           * If the current body class is set to the light-theme, update the user's preference to the dark-theme in the browsers
+           * local storage.
+           */
+          if (colorTheme.value === "light-theme") {
+            localStorage.clear();
+            localStorage.setItem("mode", "dark-theme");
+            localStorage.setItem("iconMode", "fa-toggle-on");
+            localStorage.setItem("iconText", "Dark Mode");
+          } else {
+            /**
+             * if the current body class is set to the dark-theme, update the user's preference to the light-theme in the browsers
+             * local storage.
+             */
+            localStorage.clear();
+            localStorage.setItem("mode", "light-theme");
+            localStorage.setItem("iconMode", "fa-toggle-off");
+            localStorage.setItem("iconText", "Light Mode");
+          }
+  
+          /* apply the updated selection to the HTML page elements*/
+          colorTheme.value = localStorage.getItem("mode");
+          iconMode.value = `fa ${localStorage.getItem("iconMode")} pull-right`;
+          document.getElementById("icon-text").innerHTML =
+            localStorage.getItem("iconText");
+        }
+  
+        /*********************************************End of Default Theme Code********************************************/
+      </script>
+      
+      <!--javascript for calculating future values-->
+      <script type="module">
+
+        //import FinanceCalculator and Validator
+        import { FinanceCalculator } from "./finance-calculator.js";
+        import { Validator } from "./validator.js";
+
+        //set the current date to the results card
+        document.getElementById("today").innerHTML = new Date().toLocaleDateString("en-US");
+
+        //declare an onclick function to the calculate button to:
+        document.getElementById("btnCalculate").onclick = function(){
+            //declare variable to hold monthly payment input
+            let monthlyPayment = document.getElementById("txtMonthlyPayment").value;
+        
+            //declare variable to hold rate input
+            let rate = document.getElementById("txtYearlyRate").value;
+                
+            //declare variable to hold number of years input
+            let years = document.getElementById("listNumOfYears").value;
+                
+            //declare variable set to the error log element
+            let errorLogEl = document.getElementById("errorLog");
+
+            //declare a monthly payment Validator object
+            let monthlyPaymentValidator = new Validator("Monthly Payment", monthlyPayment);
+
+            //add required field, required float field, and float min field to the monthly payment validator
+            monthlyPaymentValidator.addRequiredField();
+            monthlyPaymentValidator.addRequiredFloatField();
+            monthlyPaymentValidator.addFloatMinField(100);
+
+            //declare rate validator and add the required fields
+            let rateValidator = new Validator("Interest Rate", rate);
+            rateValidator.addRequiredField();
+            rateValidator.addRequiredFloatField();
+            rateValidator.addFloatMaxField(100);
+
+            //declare an empty error log array
+            let errorLog = [];
+
+            //if monthly payment validator does not validate
+            if(!monthlyPaymentValidator.validate()){
+                //for each message inside validator object
+                for(let message of monthlyPaymentValidator.messages){
+                    //push error message onto the error log array
+                     errorLog.push(message);
+                }
+            }
+
+            //if the rate validator does not validate
+            if(!rateValidator.validate()){
+                //for each message inside validator object
+                for(let message of rateValidator.messages){
+                    //push error message onto the error log array
+                    errorLog.push(message);
+                }
+            }
+
+            //if BOTH validators properly validate
+            if(monthlyPaymentValidator.validate() && rateValidator.validate()){
+                //set the HTML of error log element to blank string
+                errorLogEl.innerHTML = "";
+
+                //calculate future value
+                let futureValue = FinanceCalculator.calculateFutureValue(monthlyPayment, rate, years);
+
+               //format results with commas
+               let obj1 = new Intl.NumberFormat('en-US');
+               let output = obj1.format(futureValue);
+
+                //display future value to the HTML document
+                document.getElementById("futureValue").innerHTML = "The future value is $" + output;
+            } else {
+                //otherwise, set HTML of the error log element to a blank string
+                errorLogEl.innerHTML = "";
+                
+                //declare error log message variable that begins an HTML unordered list
+                let errorLogMessage = `<ul>`;
+
+                //for each error in the error log
+                for(let error of errorLog){
+                    //add a list item with the error to the list
+                    errorLogMessage += `<li>${error}</li>`;
+                }
+
+                //close the HTML unordered list
+                errorLogMessage += `</ul>`
+
+                //display the error log messages
+                document.getElementById("errorLog").innerHTML = errorLogMessage;
+            }
+        }
+      </script>
+      </div>
+  </body>
+</html>
