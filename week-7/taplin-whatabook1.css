@@ -1,0 +1,26 @@
+/*
+taplin-whatabook1.html
+Danielle Taplin
+7/08/2023
+Styling for what a books app
+*/
+
+
+/*import theme.css for the heading light-dark theme variables*/
+@import url("../theme.css");
+
+/*set border, background color, and text color main heading*/
+h1{
+    border: none;
+    background-color:var(--background-color);
+    color: var(--text-color);
+}
+
+.card{
+    width: 100%;
+}
+
+/*adjust size to account for the amount of text in the table cells*/
+.assign-content{
+    width: 675px;
+}
