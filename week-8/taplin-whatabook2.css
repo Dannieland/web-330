@@ -1,0 +1,26 @@
+/*
+taplin-whatabook1.css
+Danielle Taplin
+7/15/23
+styling for what a book pt 2
+*/
+
+/*import theme.css for the heading light-dark theme variables*/
+@import url("../theme.css");
+
+/*main head styling*/
+h1{
+    border: none;
+    background-color:var(--background-color);
+    color: var(--text-color);
+}
+
+/*card styling*/
+.card{
+    width: 100%;
+}
+
+/*table cell adjustment*/
+.assign-content{
+    width: 675px;
+}
